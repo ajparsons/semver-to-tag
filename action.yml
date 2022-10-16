@@ -1,4 +1,5 @@
 name: 'Semver to tag'
+version: 0.0.1
 description: 'Given a valid Semver, update the tags on the github repo.'
 inputs:
   semver: 

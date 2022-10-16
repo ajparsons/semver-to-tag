@@ -1,0 +1,32 @@
+# Update tags based on yml version
+name: "Update tags"
+
+# don't allow multiple 'identical' processes to run. A second push should cancel the job from the first one.
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.inputs.pypi }}-${{ github.event.inputs.testpypi }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  update-tag:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v3
+    
+      - name: Run read-yaml action
+        id: yaml-data
+        uses: jbutcher5/read-yaml@1.6
+        with:
+          file: './action.yml'
+          key-path: '["version"]'
+
+      - name: Update git tags
+        uses: ajparsons/semver-to-tag@main
+        with:
+          semver: ${{ steps.yaml-data.outputs.data }}"
+          update_tags: true
