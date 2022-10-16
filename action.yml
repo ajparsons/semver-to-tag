@@ -26,6 +26,7 @@ runs:
 
     - name: Update git tags
       if: ${{ input.update_tags == 'true' }}
+      shell: bash
       run: |
           echo "Assigning tags to current commit: $TAGS"
           git config --global user.email "action@github.com"
