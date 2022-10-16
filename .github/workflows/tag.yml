@@ -12,7 +12,6 @@ on:
 jobs:
 
   update-tag:
-    needs: test
     runs-on: ubuntu-latest
     steps:
 
