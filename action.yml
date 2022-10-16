@@ -25,7 +25,7 @@ runs:
         INPUT_SEMVER: ${{ inputs.semver }}
 
     - name: Update git tags
-      if: ${{ input.update_tags == 'true' }}
+      if: ${{ inputs.update_tags == 'true' }}
       shell: bash
       run: |
           echo "Assigning tags to current commit: $TAGS"
