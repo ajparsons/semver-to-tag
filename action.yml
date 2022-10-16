@@ -1,0 +1,39 @@
+name: 'Semver to tag'
+description: 'Given a valid Semver, update the tags on the github repo.'
+inputs:
+  semver: 
+    description: 'Valid semver'
+    default: 'true'
+  update_tags:
+    description: "true or false, update the github repository tags"
+outputs:
+  semver_tags:
+    description: "Space seperated semver tags"
+    value: ${{ steps.get_version_tags.outputs.tags }}
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: get_version_tags
+      id: get_version_tags
+      shell: bash
+      run: |
+        cd ${{ github.action_path }}
+        python get_tags.py
+      env:
+        INPUT_SEMVER: ${{ inputs.semver }}
+
+    - name: Update git tags
+      if: ${{ input.update_tags == 'true' }}
+      run: |
+          echo "Assigning tags to current commit: $TAGS"
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git tag -f -a -m "Latest release" "latest"
+          for val in $TAGS; do
+            git tag -f -a -m "Release for $val" "$val"
+          done
+          git push -f --tags
+      env:
+        TAGS: ${{ steps.get_version_tags.outputs.tags }}
