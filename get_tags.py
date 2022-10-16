@@ -6,7 +6,7 @@ def add_to_step_output(**kwargs):
     """
     with open(os.environ["GITHUB_OUTPUT"], 'a') as f:
         for k, v in kwargs.items():
-            f.write(f'\n"{k}"="{v}"')
+            f.write(f'\n{k}="{v}"')
 
 sem_ver = os.environ["INPUT_SEMVER"]
 tags = []

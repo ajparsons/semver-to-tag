@@ -3,9 +3,9 @@ description: 'Given a valid Semver, update the tags on the github repo.'
 inputs:
   semver: 
     description: 'Valid semver'
-    default: 'true'
   update_tags:
     description: "true or false, update the github repository tags"
+    default: 'true'
 outputs:
   semver_tags:
     description: "Space seperated semver tags"
