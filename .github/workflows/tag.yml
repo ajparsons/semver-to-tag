@@ -19,7 +19,7 @@ jobs:
 
       - uses: actions/checkout@v3
 
-      - uses: actions/ajparsons/get-yaml-value@main
+      - uses: ajparsons/get-yaml-value@main
         id: get-verison
         with:
           file: 'action.yml' 
