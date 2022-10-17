@@ -32,6 +32,7 @@ jobs:
           ${{ steps.python.outputs.python-path }} -m venv /tmp/semver-to-tag
           source /tmp/semver-to-tag/bin/activate
           pip install ruamel.yaml
+          echo "action path: ${{ github.action_path }}"
           python "${{ github.action_path }}/get_version.py"
 
       - name: Update git tags
