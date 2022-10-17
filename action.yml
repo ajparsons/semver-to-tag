@@ -29,15 +29,15 @@ runs:
       id: tag_exists
       shell: bash
       run: |
-        if [ $(git tag -l "v$version") ]; then
+        if [ $(git tag -l "v$VERSION") ]; then
           echo "tag_exists=true" >> $GITHUB_OUTPUT
-          echo "Tag v$version already exists, do not update tags."
+          echo "Tag v$VERSION already exists, do not update tags."
         else
           echo "tag_exists=false" >> $GITHUB_OUTPUT
-          echo "Tag v$version does not exist, update tags."
+          echo "Tag v$VERSION does not exist, update tags."
         fi
       env:
-        version: ${{ inputs.semver }}
+        VERSION: "${{ inputs.semver }}"
 
 
     - name: Update git tags
