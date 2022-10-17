@@ -16,7 +16,7 @@ runs:
   using: "composite"
   steps:
 
-    - name: get_version_tags
+    - name: Get version tags
       id: get_version_tags
       shell: bash
       run: |
@@ -25,8 +25,23 @@ runs:
       env:
         INPUT_SEMVER: ${{ inputs.semver }}
 
+    - name: Check tag does not exist
+      id: tag_exists
+      shell: bash
+      run: |
+        if [ $(git tag -l "v$version") ]; then
+          echo "tag_exists=true" >> $GITHUB_OUTPUT
+          echo "Tag v$version already exists, do not update tags."
+        else
+          echo "tag_exists=false" >> $GITHUB_OUTPUT
+          echo "Tag v$version does not exist, update tags."
+        fi
+      env:
+        version: ${{ inputs.semver }}
+
+
     - name: Update git tags
-      if: ${{ inputs.update_tags == 'true' }}
+      if: ${{ inputs.update_tags == 'true' && steps.tag_exists.outputs.tag_exists == 'false'}}
       shell: bash
       run: |
           echo "Assigning tags to current commit: $TAGS"

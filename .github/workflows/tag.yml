@@ -8,6 +8,8 @@ concurrency:
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
 
 jobs:
 
@@ -16,16 +18,24 @@ jobs:
     steps:
 
       - uses: actions/checkout@v3
-    
-      - name: Run read-yaml action
-        id: yaml-data
-        uses: jbutcher5/read-yaml@1.6
+
+      - uses: actions/setup-python@v4
+        id: python
         with:
-          file: './action.yml'
-          key-path: '["version"]'
+          python-version: '3.10' 
+          update-environment: false
+
+      - name: Get version
+        id: get-version
+        shell: bash
+        run: |
+          ${{ steps.python.outputs.python-path }} -m venv /tmp/semver-to-tag
+          source /tmp/semver-to-tag/bin/activate
+          pip install ruamel.yaml
+          python ${{ github.action_path }}/get_version.py
 
       - name: Update git tags
         uses: ajparsons/semver-to-tag@main
         with:
-          semver: ${{ steps.yaml-data.outputs.data }}"
+          semver: ${{ steps.get-version.outputs.action_version }}"
           update_tags: true
