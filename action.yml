@@ -11,6 +11,15 @@ outputs:
   semver_tags:
     description: "Space seperated semver tags"
     value: ${{ steps.get_version_tags.outputs.tags }}
+  major_tag:
+    description: "Major tag version (e.g. v1)"
+    value: ${{ steps.get_version_tags.outputs.major }}
+  minor_tag:
+    description: "Major tag version (e.g. v1.1)"
+    value: ${{ steps.get_version_tags.outputs.minor }}
+  patch_tag:
+    description: "Major tag version (e.g. v1.1.1)"
+    value: ${{ steps.get_version_tags.outputs.patch }}
 
 runs:
   using: "composite"

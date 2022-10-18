@@ -21,10 +21,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: ajparsons/get-config-value@main
+      - uses: ajparsons/get-yaml-value@main
         id: get_version
         with:
-          file: 'action.yml' 
+          file: 'action.yml'
           key: 'version'
 
       - name: Update git tags
