@@ -28,4 +28,4 @@ if (v := f"v{sem_ver}") not in tags and sem_ver:
 print("Tags that apply to this version: " +",".join(tags))
 space_seperated_tags = " ".join(tags)
 
-add_to_step_output(tags=space_seperated_tags, major="v{major}", minor=f"v{major}.{minor}", patch=f"v{major}.{minor}.{patch}"  )
+add_to_step_output(tags=space_seperated_tags, major=f"v{major}", minor=f"v{major}.{minor}", patch=f"v{major}.{minor}.{patch}"  )
