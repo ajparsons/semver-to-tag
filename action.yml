@@ -8,7 +8,7 @@ inputs:
     description: "true or false, update the github repository tags"
     default: 'true'
 outputs:
-  tag_exist:
+  tag_exists:
     description: "Boolean of if all tags already existed."
     value: $ {{ steps.tag_exists.outputs.tag_exists }}
   semver_tags:
