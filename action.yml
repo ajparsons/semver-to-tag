@@ -10,7 +10,7 @@ inputs:
 outputs:
   tag_exists:
     description: "Boolean of if all tags already existed."
-    value: $ {{ steps.tag_exists.outputs.tag_exists }}
+    value: ${{ steps.tag_exists.outputs.tag_exists }}
   semver_tags:
     description: "Space seperated semver tags"
     value: ${{ steps.get_version_tags.outputs.tags }}
