@@ -1,0 +1,52 @@
+# Update readme from action.yml
+# Also do version releases and update git tags
+name: "Update readme"
+
+# don't allow multiple 'identical' processes to run. A second push should cancel the job from the first one.
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ github.event.inputs.pypi }}-${{ github.event.inputs.testpypi }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+
+  update-action-meta:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: ajparsons/get-yaml-value@ee67a25090c05dae8a979c933a64b5ffbc1a55e7
+        id: get_version
+        with:
+          file: 'action.yml'
+          key: 'version'
+
+      - name: Update git tags
+        id: update_tags
+        uses: ajparsons/semver-to-tag@main
+        with:
+          semver: ${{ steps.get_version.outputs.value }}
+          update_tags: true
+
+      - uses: ajparsons/auto-action-readme@e594fbe764c30ac6c8337ec00b51f454aa606728 #v0.1.7
+        with:
+          tag: ${{ steps.update_tags.outputs.major_tag }}
+          output_file: README.md
+          commit_and_push: true
+
+        # if this is the first time this version has been created, do a release
+      - name: Release version
+        if: ${{ steps.update_tags.outputs.tag_exists == 'false' }}
+        shell: bash
+        run: |
+          gh release create $TAG --title $TAG
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.update_tags.outputs.patch_tag }}
