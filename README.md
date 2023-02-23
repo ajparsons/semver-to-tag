@@ -1,6 +1,6 @@
 # Semver to tag
 
-Version: 0.2.0
+Version: 1.0.0
 
 
 
@@ -11,7 +11,7 @@ Given a valid Semver, update the tags on the github repo.
 ```yaml
 
 # It is better practice to use the SHA hash of this tag rather than the tag itself.
-- uses: ajparsons/semver-to-tag@v0
+- uses: ajparsons/semver-to-tag@v1
   id: example-step 
   with:
     semver: '' 
