@@ -28,6 +28,11 @@ runs:
   using: "composite"
   steps:
 
+    - name: Self warning
+      uses: ajparsons/sha-version-warning@3bf9d42078fa317ac4e17045ffb2504b31859e03
+      with: 
+        action_path: ${{ github.action_path }}
+
     - name: Get version tags
       id: get_version_tags
       shell: bash
