@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: ajparsons/get-yaml-value@ee67a25090c05dae8a979c933a64b5ffbc1a55e7
+      - uses: ajparsons/get-yaml-value@e360e43a7c254b56590f07c95ec8b810f8575ed6
         id: get_version
         with:
           file: 'action.yml'
